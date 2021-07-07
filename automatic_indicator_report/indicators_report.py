@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#!/usr/bin/env python
 import os
 import sys
 import csv
@@ -8,7 +8,6 @@ from datetime import datetime
 from d2apy import dhis2api
 import json
 
-# subprocess.call('sudo node myscript.js', shell=True)
 proxy = 'http://openproxy.who.int:8080/'
 
 os.environ['http_proxy'] = proxy
@@ -227,7 +226,7 @@ def main():
         print("Server:" + server["origin"]["server"])
         program_indicators = match_wrong_program_indicator_expressions(program_indicators, api_origin, server["method"])
         indicators = match_wrong_indicator_expressions(indicators, api_origin, server["method"])
-        create_report(indicators, program_indicators, server["report_name"], exists, args.output, server["destine"]["id"])
+        create_report(indicators, program_indicators, exists, server["report_name"], args.output, server["destine"]["id"])
         report_to_widp(len(indicators['indicators']), len(program_indicators['programIndicators']), server["destine"]["server"],
                        server["destine"]["user"], server["destine"]["password"],
                        server["destine"]["dataelement_uid"],
