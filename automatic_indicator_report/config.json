@@ -1,0 +1,40 @@
+{
+  "servers": [
+    {
+      "report_name": "",
+      "method": "api",
+      "time_control_file": "/backups/logs/preprod_update_date.txt",
+      "origin": {
+        "user": "",
+        "password": "",
+        "server": ""
+      },
+      "destine": {
+        "id": "",
+        "user": "",
+        "password": "!",
+        "server": "",
+        "dataelement_uid": "",
+        "categoryoptioncombo_uid": ""
+      }
+    },
+    {
+      "report_name": "dev",
+      "method": "api",
+      "time_control_file": "/backups/logs/dev_update_date.txt",
+      "origin": {
+        "user": "",
+        "password": "",
+        "server": ""
+      },
+      "destine": {
+        "id": "",
+        "user": "",
+        "password": "",
+        "server": "",
+        "dataelement_uid": "",
+        "categoryoptioncombo_uid": ""
+      }
+    }
+  ]
+}

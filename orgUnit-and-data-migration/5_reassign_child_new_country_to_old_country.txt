@@ -1,0 +1,12 @@
+OLD_OU_NAME OLD_COUNTRY_ID
+NEW_OU_NAME NEW_COUNTRY_ID
+
+GET
+https://extranet-uat.who.int/dhis2/api/29/organisationUnits.json?filter=path:ilike:NEW_COUNTRY_ID&filter=level:eq:4&paging=false&fields=:all
+
+In a text editor:
+// replace NEW_COUNTRY_ID by OLD_COUNTRY_ID, the only important code to replace is the parentid
+// ideally remove ,"path":"[^\"]+" 
+
+POST
+https://extranet-uat.who.int/dhis2/api/29/metadata

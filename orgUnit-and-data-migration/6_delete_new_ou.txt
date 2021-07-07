@@ -1,0 +1,1 @@
+DELETE https://extranet-uat.who.int/dhis2/api/organisationUnits/NEW_COUNTRY_ID
