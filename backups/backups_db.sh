@@ -1,27 +1,5 @@
-#prod
-#backup_db_prod.sh --periodicity day-in-week --format custom --destination gva11sucherubi.who.int >> /home/tomcatuser/backups/logs/db_backups.log 2>&1
-#/backup_db_prod.sh --periodicity week-in-month --format custom --destination gva11sucherubi.who.int >> /home/tomcatuser/backups/logs/db_backups.log 2>&1
-#backup_db_prod.sh --periodicity month-in-year --format custom --destination gva11sucherubi.who.int >> /home/tomcatuser/backups/logs/db_backups.log 2>&1
-
-# BACKUP-PROD-MONDAY_cformat.dump
-# BACKUP-PROD-FIRST-WEEK_cformat.dump
-# BACKUP-PROD-AUGUST_cformat.dump
-
-
-#script:
-
 #!/bin/sh
 #set -x
-
-#config options
-source ~/.dhis2_info_credentials
-
-dhis2_instance=PROD
-db_server=
-db_name=
-dump_dest_path=/home/tomcatuser/backups
-dump_remote_dest_path=/home/tomcatuser/backups
-
 
 ####
 db_remote_dest_server=""
@@ -120,7 +98,7 @@ assign_params() {
       assign_destination $2
       shift 2
       ;;
-    -a | --audit)
+    --exclude-audit)
       audit=1
       shift
       ;;
