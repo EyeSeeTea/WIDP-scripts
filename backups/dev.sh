@@ -12,11 +12,14 @@
 #set -x
 
 #config options
+#!/bin/sh
+#set -x
+
+#config options
+source ~/.dhis2_info_credentials
 
 dhis2_instance=DEV
 db_server=
-db_user=
-db_pass=
 db_name=
 dump_dest_path=/home/tomcatuser/backups
 dump_remote_dest_path=/home/tomcatuser/backups
@@ -25,6 +28,7 @@ dump_remote_dest_path=/home/tomcatuser/backups
 ####
 db_remote_dest_server=""
 fail=0
+audit=0
 period_name=""
 format="custom"
 timestamp=$(date +%Y-%m-%d_%H%M)
@@ -48,31 +52,31 @@ assign_periodicity() {
     case $1 in
     day-in-week)
       period_name=$(date '+%A' | tr 'a-z' 'A-Z')
-      period_name=$period_name
+      period_name="DAILY-"$period_name
       ;;
     week-in-month)
       period_name=$((($(date +%-d) - 1) / 7 + 1))
       case $period_name in
       1)
-        period_name="FIRST-WEEK"
+        period_name="WEEKLY-FIRST"
         ;;
       2)
-        period_name="SECOND-WEEK"
+        period_name="WEEKLY-WEEK"
         ;;
       3)
-        period_name="THIRD-WEEK"
+        period_name="WEEKLY-WEEK"
         ;;
       4)
-        period_name="FOURTH-WEEK"
+        period_name="WEEKLY-WEEK"
         ;;
       5)
-        period_name="FIFTH-WEEK"
+        period_name="WEEKLY-WEEK"
         ;;
       esac
       ;;
     month-in-year)
       period_name=$(date +"%B" | tr 'a-z' 'A-Z')
-      period_name=$period_name
+      period_name="MONTHLY"$period_name
       ;;
     esac
 
@@ -118,6 +122,10 @@ assign_params() {
       assign_destination $2
       shift 2
       ;;
+    -a | --audit)
+      audit=1
+      shift
+      ;;
     *)
       assign_name $1
       shift
@@ -146,17 +154,19 @@ backup() {
     backup_name=$no_name
     backup_name=-${backup_name}-${timestamp}
   fi
-
+  audit_tables=""
+  if [ $audit -eq 1 ]; then
+    audit_tables="--exclude-table audit"
+  fi
   backup_file=BACKUP-${dhis2_instance}-${period_name}${backup_name}
-  PGPASSWORD=${db_pass}
   if [ "$format" = "custom" ]; then
     backup_file="${backup_file}_cformat.dump"
     echo "[${timestamp}] Generating custom backup into ${backup_file}..."
-    pg_dump -d "postgresql://${db_user}:${db_pass}@${db_server}:5432/${db_name}" --no-owner --exclude-table 'aggregated*' --exclude-table 'analytics*' --exclude-table 'completeness*' --exclude-schema sys -f ${dump_dest_path}/${backup_file} -Fc
+    pg_dump -d "postgresql://${db_user}:${db_pass}@${db_server}:5432/${db_name}" --no-owner --exclude-table 'aggregated*' ${audit_tables} --exclude-table 'analytics*' --exclude-table 'completeness*' --exclude-schema sys -f ${dump_dest_path}/${backup_file} -Fc
   else
     backup_file="${backup_file}.sql.tar.gz"
     echo "[${timestamp}] Generating plain backup into ${backup_file}"
-    pg_dump -d "postgresql://${db_user}:${db_pass}@${db_server}:5432/${db_name}" --no-owner --exclude-table 'aggregated*' --exclude-table 'analytics*' --exclude-table 'completeness*' --exclude-schema sys -Fp | gzip > ${dump_dest_path}/${backup_file}
+    pg_dump -d "postgresql://${db_user}:${db_pass}@${db_server}:5432/${db_name}" --no-owner --exclude-table 'aggregated*' ${audit_tables} --exclude-table 'analytics*' --exclude-table 'completeness*' --exclude-schema sys -Fp | gzip > ${dump_dest_path}/${backup_file}
   fi
 
   check_status 1
@@ -197,4 +207,3 @@ main() {
 
 main $@
 exit 0
-
