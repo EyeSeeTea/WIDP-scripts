@@ -37,14 +37,6 @@ else
   period=MANUAL-${timestamp}
 fi
 
-dhis2_instance=TRAINING
-db_server=
-db_user=
-db_pass=
-db_name=
-dump_dest_path=/home/tomcatuser/backups
-docker_image=widp/dhis2-data:2.34-WIDP-TRAINING
-
 check_status(){
     if [ $? -eq 0 ]; then
         echo OK
