@@ -139,3 +139,17 @@ INNER JOIN programinstance pi ON p.programid = pi.programid
 INNER JOIN programstageinstance psi ON pi.programinstanceid = psi.programinstanceid
 WHERE p.name = 'program_name'
 )
+
+--examle of select and delete dataelemnt+value from a program
+SELECT programstageinstanceid
+FROM programstageinstance
+WHERE eventdatavalues-> 'v86CHHosXCi' ->> 'value' = 'false' and programstageinstanceid IN(
+SELECT psi.programstageinstanceid
+FROM program p
+INNER JOIN programinstance pi ON p.programid = pi.programid
+INNER JOIN programstageinstance psi ON pi.programinstanceid = psi.programinstanceid
+WHERE p.name like 'ENTO%');
+
+--update only the porgramstageinstanceid from the select query
+update programstageinstance set eventdatavalues = eventdatavalues - 'v86CHHosXCi' WHERE eventdatavalues-> 'v86CHHosXCi' ->> 'value' = 'false' 
+and programstageinstanceid IN(10721070,10721058,10721068,10721076,10721077,10720962,10720963,10720946,10720940,10720976,10720961,10721069,10720821,10721064,10721051,10721052,10721071,10721081,10721072,10720981,10721056,10720987,10721061,10720977,10721049,10720967,10720853,10720965,10720937,10720934,10720970,10720973,10720915,10721057,10721067,10720858,10721050,10721055,10721062,10720974,10720966,10720945,10720828,10720971,10720850,10720875,10720980,10720866,10720982,10720975,10720912,10720944,10720910,10720964,10721078,10720911,10720947,10720942,10721063,10720935,10721059,10720941,10720972,10720943,10720978,10720916,10720968,10721048,10720979,10720874,10720983,10720969,10720960,10720938,10720936,10720984,10720862,10720869,10720914,10721079,10720939,10721054,10721075,10720913,10721060,10721080,10720948);
