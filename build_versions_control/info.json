@@ -1,0 +1,45 @@
+{
+	"instances": [{
+		"preprod-cont": {
+			"version": "",
+			"revision": "",
+			"previousRevision": "",
+			"server": "https://portal-uat.who.int/dhis2-cont/"
+		}
+	}, {
+		"preprod": {
+			"version": "",
+			"revision": "",
+			"previousRevision": "",
+			"server": "https://portal-uat.who.int/dhis2/"
+		}
+	}, {
+		"prod": {
+			"version": "",
+			"revision": "",
+			"previousRevision": "",
+			"server": "https://extranet.who.int/dhis2/"
+		}
+	}, {
+		"dev": {
+			"version": "",
+			"revision": "",
+			"previousRevision": "",
+			"server": "https://extranet.who.int/dhis2-dev/"
+		}
+	}, {
+		"cont-dev": {
+			"version": "",
+			"revision": "",
+			"previousRevision": "",
+			"server": "https://extranet.who.int/dhis2-cont-dev/"
+		}
+	}, {
+		"demo": {
+			"version": "",
+			"revision": "",
+			"previousRevision": "",
+			"server": "https://extranet.who.int/dhis2-demo/"
+		}
+	}]
+}
