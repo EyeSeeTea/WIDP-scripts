@@ -1,0 +1,4 @@
+jq -r '.categoryOptionCombos[].id
+       | "INSERT INTO tmp_uids_to_check(uid) VALUES (\"" + . + "\") ON CONFLICT DO NOTHING;"' cocs_to_remove.json \
+| sed "s/\"/'/g" \
+> 02_load_uids.sql
